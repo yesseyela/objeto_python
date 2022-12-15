@@ -1,41 +1,39 @@
-class Usuario:
-  def __init__(self, nombre, apellido, cedula, edad):
-    self.nombre = nombre
-    self.apellido = apellido
-    self.cedula = cedula
-    self.edad = edad
-
+#Clase cuenta, hereda datos de usuario. datos propios: cantidad_ahorrada
+from usuario import Usuario
 class Cuenta(Usuario):
-  def __init__(self, nombre, apellido, cedula, edad, saldo):
-    super().__init__(nombre, apellido, cedula, edad)
-    self.saldo = saldo
+    def __init__(self, usuario, cantidad_ahorrada):
+        self.usuario = usuario
+        self.cantidad_ahorrada = cantidad_ahorrada #this is propio
 
-  def setSaldo(self, saldo):
-    self.saldo = saldo
+    def set_cantidad_ahorrada(self, cantidad): #estas son funciones sisa que devlin es self, pero se supone que va
+        if cantidad > 0:
+            self.cantidad_ahorrada = cantidad #envia el valor de la cantidad
+            return True
+        return False
 
-  def getSaldo(self):
-    return self.saldo
+    def get_cantidad_ahorrada(self):#pide la cantidad
+        return self.cantidad_ahorrada
 
-  def mostrar(self):
-    print("Resumen del cliente:")
-    print("Nombre:", self.nombre)
-    print("Apellido:", self.apellido)
-    print("Cédula:", self.cedula)
-    print("Edad:", self.edad)
-    print("Saldo:", self.saldo)
+    def mostrar(self): #como string pero largo
+        presentacion = ("USUARIO-> Nombre: " + self.usuario.nombre + " Apellido: " + self.usuario.apellido + ", Edad: " + str(self.usuario.edad) + ", Cedula: " + str(self.usuario.cedula) + ", Cantidad en la cuenta: " + str(self.cantidad_ahorrada)) #Mensaje
+        return presentacion
 
-  def ingresar(self, cantidad):
-    if cantidad > 0:
-      self.saldo += cantidad
-      print("Se ha depositado", cantidad, "en la cuenta.")
-    else:
-      print("No se pueden depositar cantidades negativas en la cuenta.")
-
-  def retirar(self, cantidad):
-    if cantidad > 0:
-      if cantidad <= self.saldo:
-        self.saldo -= cantidad
-        print("Se ha retirado", cantidad, "de la cuenta.")
-      else:
-        print("No se puede retirar, " cantidad, "de la cuenta.")
-    return self.cantidad
+    def ingresar(self, cantidad): #pa que entre la cantidad a ingresar
+        if cantidad < 0:
+            print('No se puede retirar una cantidad negativa')
+            return False
+        else:
+            self.cantidad_ahorrada += cantidad
+            return True
+            
+    def retirar(self, cantidad): #pa que entre la cantidad a retirar
+        if cantidad < 0:
+            print('No se puede retirar una cantidad negativa')
+            return False
+        else:
+            if cantidad > self.cantidad_ahorrada:
+                print('Ups, no hay saldo disponible')
+                return False
+            else:
+                self.cantidad_ahorrada -= cantidad
+                return True
